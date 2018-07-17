@@ -1,0 +1,40 @@
+; EXPECT: unsat
+; COMMAND-LINE: --cegqi-si=all --sygus-out=status
+
+(set-logic FP)
+
+;(define-sort MyFloat () Float32)
+(define-sort MyFloat () (_ FloatingPoint 4 8))
+
+(define-fun rne () RoundingMode RNE)
+(define-fun rtn () RoundingMode RTN)
+(define-fun rtp () RoundingMode RTP)
+
+(synth-fun lower ((lx MyFloat) (ly MyFloat)) MyFloat
+    (
+        (Start MyFloat ((Variable MyFloat)
+                        (Constant MyFloat)
+                        (fp.add RND Start Start)
+                        (fp.sub RND Start Start)
+        ))
+     (RND RoundingMode (rne rtp rtn)
+)))
+
+(declare-var x MyFloat)
+(declare-var y MyFloat)
+(declare-var a MyFloat)
+(declare-var b MyFloat)
+
+;(constraint (= (lower RNE a b) (fp.add RNE a b)))
+
+
+(constraint (and
+             (=> (and (not (fp.isInfinite y)) (not (fp.isInfinite x)) (fp.leq a x) (fp.leq y (fp.add RNE a b)))
+                 (fp.leq (lower x y) b))
+            (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8))))
+            (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8))))
+))
+
+
+
+(check-synth)
