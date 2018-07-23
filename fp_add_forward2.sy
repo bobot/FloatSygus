@@ -31,8 +31,10 @@
 
 
 (constraint (and
+            ;; main constraint without supposing that upper bound are not needed
                 (=> (and (not (fp.isInfinite al)) (not (fp.isInfinite bl)) (fp.leq al a) (fp.leq a au) (fp.leq bl b) (fp.leq b bu))
                     (fp.leq (lower al bl au bu) (fp.add RNE a b)))
+            ;; additional constraints to _try_ to remove trivial functions
                 (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8) (_ +zero 4 8) (_ +zero 4 8))))
                 (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8) (_ +zero 4 8) (_ +zero 4 8))))
 ))
