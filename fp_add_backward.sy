@@ -29,8 +29,11 @@
 
 
 (constraint (and
+            ;;; main constraint we suppose that we know that only the upper bound of a and lower
+            ;;; bound of the result is needed
              (=> (and (not (fp.isInfinite y)) (not (fp.isInfinite x)) (fp.leq a x) (fp.leq y (fp.add RNE a b)))
                  (fp.leq (lower x y) b))
+            ;;; Additional constraint to _try_ to remove trivial results
             (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8))))
             (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8))))
             (fp.leq (fp #b1 #b0001 #b0000000) (lower (_ +zero 4 8) (_ +zero 4 8)))
