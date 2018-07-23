@@ -22,9 +22,11 @@
 
 (assert (not (and
              (=> (and (not (fp.isInfinite z)) (not (fp.isInfinite x)) (fp.leq a x) (fp.leq z (fp.add RNE a b)))
-                 (fp.leq (lower x z) b))
-            (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8))))
-            (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8))))
+                  (fp.leq (lower x z) b))
+             (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8))))
+             (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8))))
+             (fp.leq (fp #b1 #b0001 #b0000000) (lower (_ +zero 4 8) (_ +zero 4 8)))
+             (fp.leq (lower (_ +zero 4 8) (_ +zero 4 8)) (fp #b0 #b0001 #b0000000))
 )))
 
 (check-sat)

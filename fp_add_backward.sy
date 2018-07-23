@@ -14,8 +14,8 @@
     (
         (Start MyFloat ((Variable MyFloat)
                         (Constant MyFloat)
-                        (fp.add RND Start Start)
                         (fp.sub RND Start Start)
+                        (fp.add RND Start Start)
         ))
      (RND RoundingMode (rne rtp rtn)
 )))
@@ -33,6 +33,8 @@
                  (fp.leq (lower x y) b))
             (not (fp.isInfinite (lower (_ +zero 4 8) (_ +zero 4 8))))
             (not (= (fp #b1 #b1110 #b1111111) (lower (_ +zero 4 8) (_ +zero 4 8))))
+            (fp.leq (fp #b1 #b0001 #b0000000) (lower (_ +zero 4 8) (_ +zero 4 8)))
+            (fp.leq (lower (_ +zero 4 8) (_ +zero 4 8)) (fp #b0 #b0001 #b0000000))
 ))
 
 
